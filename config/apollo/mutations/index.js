@@ -32,7 +32,7 @@ exports.mutationTypes = `
 
         **Access Necessary:** Account owner
         """
-        updateItemQuantity(user_id: ID!, shop_id: ID!, product_id: ID!, quantity: Float): Cart!
+        updateItemQuantity(user_id: ID!, shop_id: ID!, product_id: ID!, quantity: Float!): Cart!
         
         """
         Make a purchase

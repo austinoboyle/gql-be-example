@@ -3,7 +3,8 @@
     "version": "0.0.0",
     "private": true,
     "scripts": {
-        "start": "node app.js"
+        "start": "node app.js",
+        "test": "NODE_ENV=test jest"
     },
     "dependencies": {
         "apollo-server-express": "^2.0.7",
@@ -11,10 +12,14 @@
         "debug": "~2.6.9",
         "express": "~4.15.5",
         "graphql": "^14.0.2",
+        "graphql-tools": "^3.1.1",
         "jade": "~1.11.0",
         "lodash": "^4.17.11",
         "mongoose": "^5.2.14",
         "mongoose-id-validator": "^0.4.3",
         "morgan": "~1.9.0"
+    },
+    "jest": {
+        "testEnvironment": "node"
     }
 }

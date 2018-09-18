@@ -6,6 +6,12 @@ module.exports = {
             name: "graphql"
         }
     },
+    test: {
+        db: "mongodb://127.0.0.1/graphql-test",
+        app: {
+            name: "graphql"
+        }
+    },
     production: {
         db: `mongodb://${process.env.MONGO_USER}:${process.env.MONGO_PASS}@${
             process.env.MONGO_URL

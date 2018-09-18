@@ -4,7 +4,6 @@ exports.populateTotals = order => {
     if (_.isEmpty(order)) {
         return new Error("Cart/Order does not exist");
     }
-    console.log("POPULATING TOTALS FOR", order);
     order.items = order.items.map(i => {
         i.total = i.product.price * i.quantity;
         return i;

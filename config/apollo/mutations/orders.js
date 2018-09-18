@@ -31,7 +31,6 @@ exports.returnItem = (obj, { order_id, product_id, quantity }, context) => {
             ).then(() => o);
         })
         .then(o => {
-            console.log("ORDER", o);
             const itemIndex = o.items.findIndex(
                 i => i.product._id.toString() === product_id
             );

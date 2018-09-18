@@ -10,7 +10,7 @@ exports.queryTypes = `
 type Query {
     "Get users by username, id, or access level"
     users(id: ID, username: String, access: Access): [User!]
-    shops(id: ID, name: String): [Shop!]
+    shops(id: ID, name: String, product_id: ID): [Shop!]
     products(id: ID, name: String): [Product!]
     carts(id: ID, user_id: ID, shop_id: ID): [Cart!]
     orders(id: ID, user_id: ID, shop_id: ID): [Order!]
@@ -21,8 +21,8 @@ const users = (obj, { id, username, access }, context, info) => {
     return User.find(createQuery({ _id: id, username, access }));
 };
 
-const shops = (obj, { id, name }, context, info) => {
-    return Shop.find(createQuery({ _id: id, name }))
+const shops = (obj, { id, name, product_id }, context, info) => {
+    return Shop.find(createQuery({ _id: id, name, products: product_id }))
         .populate("products")
         .populate("owners")
         .exec();
