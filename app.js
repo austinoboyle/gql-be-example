@@ -1,22 +1,16 @@
 const express = require("express");
 const { ApolloServer, gql } = require("apollo-server-express");
 const types = require("./config/apollo/types");
+const { queryTypes, queryResolvers } = require("./config/apollo/queries.js");
 const db = require("./config/mongoose");
 db();
 // Construct a schema, using GraphQL schema language
-const queryTypes = `
-    type Query {
-        hello: String
-    }
-`;
 
 const typeDefs = gql(types + queryTypes);
 
 // Provide resolver functions for your schema fields
 const resolvers = {
-    // Query: {
-    //     hello: () => "Hello world!"
-    // }
+    Query: queryResolvers
 };
 
 const server = new ApolloServer({ typeDefs, resolvers });
