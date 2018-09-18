@@ -33,11 +33,12 @@ const OrderSchema = new mongoose.Schema({
 });
 
 OrderSchema.pre("validate", function(next) {
-    console.log("VALIDATING ORDER:", this);
     this.items = this.items.map(i =>
-        Object.assign(i, { total: i.product.price * i.quantity })
+        Object.assign(i, { total: (i.product.price * i.quantity).toFixed(2) })
     );
-    this.total = this.items.reduce((prev, curr) => prev + curr.total, 0);
+    this.total = this.items
+        .reduce((prev, curr) => prev + curr.total, 0)
+        .toFixed(2);
     next();
 });
 
