@@ -6,31 +6,28 @@
 const Shop = require("../../models/Shop");
 const _ = require("lodash");
 
-const AuthorizationError = message => {
-    throw new Error(
-        `Permission Denied${_.isEmpty(message) ? "" : ` - ${message}`}`
-    );
+class AuthorizationError extends Error {}
+
+const throwError = message => {
+    throw new AuthorizationError(`Permission Denied: ${message}`);
 };
 
 const requirePermission = (promise, message) => {
-    console.log("PROMISE", promise);
     return promise.then(auth => {
-        console.log("AUTH", auth);
-        return auth ? true : AuthorizationError(message);
+        // console.log(`${auth ? "HAS PERMISSION" : "DOES NOT HAVE PERMISSION"}`);
+        return auth ? true : throwError(message);
     });
 };
 
 const requireAllPermissions = (promises, message) => {
     return Promise.all(promises).then(
-        results =>
-            results.some(res => res) ? true : AuthorizationError(message)
+        results => (results.every(res => res) ? true : throwError(message))
     );
 };
 
 const requireAnyPermissions = (promises, message) => {
     return Promise.all(promises).then(
-        results =>
-            results.all(res => res) ? true : AuthorizationError(message)
+        results => (results.some(res => res) ? true : throwError(message))
     );
 };
 
