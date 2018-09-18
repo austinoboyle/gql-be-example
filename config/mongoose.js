@@ -17,15 +17,11 @@ module.exports = function() {
         }
     );
     mongoose.set("useCreateIndex", true);
-    mongoose.connection
-        .on("error", function(err) {
-            console.log(
-                "Error: Could not connect to MongoDB. Did you forget to run `mongod`?"
-                    .red
-            );
-        })
-        .on("open", function() {
-            console.log("MongoDB Connection Established");
-        });
+    mongoose.connection.on("error", function(err) {
+        console.log(
+            "Error: Could not connect to MongoDB. Did you forget to run `mongod`?"
+                .red
+        );
+    });
     return db;
 };
