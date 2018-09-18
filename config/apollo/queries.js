@@ -4,6 +4,8 @@ const Product = require("../../models/Product");
 const Cart = require("../../models/Cart");
 const Order = require("../../models/Order");
 
+const { createQuery, populateTotals } = require("../../utils");
+
 exports.queryTypes = `
 type Query {
     "Get users by username, id, or access level"
@@ -15,15 +17,31 @@ type Query {
 }
 `;
 
-const users = (obj, { id, username, access }, context, info) => {};
+const users = (obj, { id, username, access }, context, info) => {
+    return User.find(createQuery({ _id: id, username, access }));
+};
 
-const shops = (obj, { id, name }, context, info) => {};
+const shops = (obj, { id, name }, context, info) => {
+    return Shop.find(createQuery({ _id: id, name }))
+        .populate("products")
+        .populate("owners")
+        .exec();
+};
 
-const products = (obj, { id, name }, context, info) => {};
+const products = (obj, { id, name }, context, info) => {
+    return Product.find(createQuery({ _id: id, name }));
+};
 
-const carts = (obj, { id, user_id, shop_id }) => {};
+const carts = (obj, { id, user_id, shop_id }) => {
+    return Cart.find(createQuery({ _id: id, user: user_id, shop: shop_id }))
+        .populate("items.product")
+        .exec()
+        .then(carts => carts.map(populateTotals));
+};
 
-const orders = (obj, { id, user_id, shop_id }) => {};
+const orders = (obj, { id, user_id, shop_id }) => {
+    return Order.find(createQuery({ _id: id, user: user_id, shop: shop_id }));
+};
 
 exports.queryResolvers = {
     users,
