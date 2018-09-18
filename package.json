@@ -22,5 +22,9 @@
     },
     "jest": {
         "testEnvironment": "node"
+    },
+    "devDependencies": {
+        "jest": "^23.6.0",
+        "jest-cli": "^23.6.0"
     }
 }
