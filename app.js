@@ -1,23 +1,11 @@
 const express = require("express");
-const { ApolloServer, gql } = require("apollo-server-express");
+const mongoose = require("mongoose");
+const { ApolloServer } = require("apollo-server-express");
 const User = require("./models/User");
-const types = require("./config/apollo/types");
-const { queryTypes, queryResolvers } = require("./config/apollo/queries.js");
-const {
-    mutationTypes,
-    mutationResolvers
-} = require("./config/apollo/mutations");
 const db = require("./config/mongoose");
+const { schema } = require("./config/apollo");
+const resetDb = require("./resetDb");
 db();
-// Construct a schema, using GraphQL schema language
-
-const typeDefs = gql(types + queryTypes + mutationTypes);
-
-// Provide resolver functions for your schema fields
-const resolvers = {
-    Query: queryResolvers,
-    Mutation: mutationResolvers
-};
 
 const readToken = token => {
     // Do things
@@ -35,13 +23,17 @@ const handleContext = ({ req }) => {
 };
 
 const server = new ApolloServer({
-    typeDefs,
-    resolvers,
+    schema,
+    uploads: false,
     context: handleContext
 });
 
 const app = express();
-app.get("/resetDb", require("./resetDb"));
+app.get("/resetDb", (req, res) => {
+    resetDb().then(
+        success => (success ? res.send("Success!") : res.send("FAIL!"))
+    );
+});
 server.applyMiddleware({ app });
 
 app.listen({ port: 4000 }, () =>
