@@ -40,6 +40,7 @@ const server = new ApolloServer({
 });
 
 const app = express();
+app.get("/resetDb", require("./resetDb"));
 server.applyMiddleware({ app });
 
 app.listen({ port: 4000 }, () =>
