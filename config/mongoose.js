@@ -12,8 +12,11 @@ module.exports = function() {
     mongoose.Promise = global.Promise;
     var db = mongoose.connect(
         config.db,
-        { useMongoClient: true }
+        {
+            useNewUrlParser: true
+        }
     );
+    mongoose.set("useCreateIndex", true);
     mongoose.connection
         .on("error", function(err) {
             console.log(
