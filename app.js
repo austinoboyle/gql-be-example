@@ -1,5 +1,6 @@
 const express = require("express");
 const { ApolloServer, gql } = require("apollo-server-express");
+const User = require("./models/User");
 const types = require("./config/apollo/types");
 const { queryTypes, queryResolvers } = require("./config/apollo/queries.js");
 const {
@@ -17,7 +18,26 @@ const resolvers = {
     Query: queryResolvers
 };
 
-const server = new ApolloServer({ typeDefs, resolvers });
+const readToken = token => {
+    // Do things
+    return token;
+};
+
+const handleContext = ({ req }) => {
+    const token = req.headers.authorization || "";
+    const user_id = readToken(token);
+    if (!mongoose.Types.ObjectId.isValid(user_id)) {
+        return { user: null };
+    } else {
+        return User.findOne({ _id: token }).then(u => ({ user: u }));
+    }
+};
+
+const server = new ApolloServer({
+    typeDefs,
+    resolvers,
+    context: handleContext
+});
 
 const app = express();
 server.applyMiddleware({ app });
