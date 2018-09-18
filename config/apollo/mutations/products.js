@@ -40,7 +40,9 @@ exports.updateProduct = (
 };
 
 exports.deleteProduct = (obj, { shop_id, product_id }, context) => {
-    return requirePermission(isStoreOwner(context.user, shop_id)).then(() =>
-        Product.remove({ _id: product_id, shop: shop_id })
-    );
+    return requirePermission(isStoreOwner(context.user, shop_id))
+        .then(() =>
+            Shop.findByIdAndUpdate(shop_id, { $pull: { products: product_id } })
+        )
+        .then(() => Product.remove({ _id: product_id, shop: shop_id }));
 };
