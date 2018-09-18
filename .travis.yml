@@ -8,7 +8,7 @@ cache:
     directories:
         - node_modules
 script:
-    - yarn test --coverage
+    - yarn test:ci --coverage
 
 after_success:
     - cat ./coverage/*.info | ./node_modules/coveralls/bin/coveralls.js

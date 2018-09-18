@@ -35,12 +35,8 @@ describe("ADMIN", () => {
     it("Is Always Accepted", done => {
         const validateAdmin = isAdmin(admin);
         const validateUser = isUser(admin);
-        const validateAccountOwner = requirePermission(
-            isAccountOwner(admin, user_id)
-        );
-        const validateStoreOwner = requirePermission(
-            isStoreOwner(admin, shop_ids[0])
-        );
+        const validateAccountOwner = isAccountOwner(admin, user_id);
+        const validateStoreOwner = isStoreOwner(admin, shop_ids[0]);
         Promise.all([
             validateAdmin,
             validateUser,

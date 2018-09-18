@@ -1,3 +1,8 @@
+require("dotenv-flow").config();
+const MONGO_CONNECTION_STRING = `mongodb://${process.env.MONGO_USER}:${
+    process.env.MONGO_PASS
+}@${process.env.MONGO_URL}`;
+console.log("CONNECTION STRING", MONGO_CONNECTION_STRING);
 module.exports = {
     //MongoDB configuration
     development: {
@@ -7,15 +12,15 @@ module.exports = {
         }
     },
     test: {
-        db: "mongodb://127.0.0.1/graphql-test",
+        db: process.env.REMOTE_TEST_DB
+            ? MONGO_CONNECTION_STRING
+            : "mongodb://127.0.0.1/graphql-test",
         app: {
             name: "graphql"
         }
     },
     production: {
-        db: `mongodb://${process.env.MONGO_USER}:${process.env.MONGO_PASS}@${
-            process.env.MONGO_URL
-        }`,
+        db: MONGO_CONNECTION_STRING,
         app: {
             name: "graphql"
         }
