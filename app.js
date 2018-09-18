@@ -15,7 +15,8 @@ const typeDefs = gql(types + queryTypes + mutationTypes);
 
 // Provide resolver functions for your schema fields
 const resolvers = {
-    Query: queryResolvers
+    Query: queryResolvers,
+    Mutation: mutationResolvers
 };
 
 const readToken = token => {
