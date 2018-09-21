@@ -1,4 +1,5 @@
 require("dotenv-flow").config();
+
 let MONGO_CONNECTION_STRING = "mongodb://127.0.0.1/graphql";
 if (process.env.MONGO_URL !== undefined) {
     MONGO_CONNECTION_STRING = `mongodb://${process.env.MONGO_USER}:${
@@ -13,6 +14,10 @@ const baseConfig = {
 module.exports = {
     //MongoDB configuration
     development: baseConfig,
-    test: baseConfig,
+    test: Object.assign({}, baseConfig, {
+        db: process.env.CI
+            ? MONGO_CONNECTION_STRING
+            : "mongodb://127.0.0.1/graphql-test"
+    }),
     production: baseConfig
 };
