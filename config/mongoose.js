@@ -17,10 +17,11 @@ module.exports = function() {
         }
     );
     mongoose.set("useCreateIndex", true);
+    mongoose.connection.once("open", function() {
+        console.log(`Successfully connected to ${config.db}`);
+    });
     mongoose.connection.on("error", function(err) {
-        console.log(
-            "Error: Could not connect to MongoDB. Did you forget to run `mongod`?"
-        );
+        console.log(`Error: Could not connect to ${config.db}.`);
     });
     return db;
 };
