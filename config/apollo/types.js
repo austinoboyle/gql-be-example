@@ -1,3 +1,8 @@
+/**
+ * Custom GraphQL Object Type Definitions
+ * @module types
+ */
+
 let types = `
     "Possible access levels for users to have"
     enum Access {

@@ -1,8 +1,19 @@
+/** @module mutations-orders */
+
 const Order = require("../../../models/Order");
 const Cart = require("../../../models/Cart");
 const { requirePermission, isAccountOwner } = require("../authTypes");
 const _ = require("lodash");
 
+/**
+ * Resolver to submit an order
+ *
+ * @param {*} obj
+ * @param {Object} cart { user_id: id of user submitting order, shop_id: id of shop their
+ * order is at }
+ * @param {Object} context contains user that sent the request
+ * @returns {Promise} resolves to the created Order
+ */
 exports.submitOrder = (obj, { user_id, shop_id }, context) => {
     return requirePermission(isAccountOwner(context.user, user_id)).then(() =>
         Cart.findOne({ user: user_id, shop: shop_id })
@@ -22,7 +33,15 @@ exports.submitOrder = (obj, { user_id, shop_id }, context) => {
     );
 };
 
-// TODO - Implementation
+/**
+ * Resolver to return an item, modifying an existing order.
+ *
+ * @param {*} obj
+ * @param {Object} order { order_id: id of order, product_id: id of product being
+ * returned, quantity: number of item to return }
+ * @param {Object} context {user: user who sent the request}
+ * @returns {Promise} resolves to updated Order
+ */
 exports.returnItem = (obj, { order_id, product_id, quantity }, context) => {
     return Order.findById(order_id)
         .then(o => {

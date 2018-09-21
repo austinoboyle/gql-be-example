@@ -1,9 +1,16 @@
+/**
+ * GraphQL Mutations - Types and Resolvers
+ */
+
 const { createUser, deleteUser } = require("./users");
 const { addToCart, updateItemQuantity } = require("./carts");
 const { submitOrder, returnItem } = require("./orders");
 const { createShop, deleteShop } = require("./shops");
 const { createProduct, deleteProduct, updateProduct } = require("./products");
 
+/** Mutation Types and Documentation
+ * @type {String}
+ */
 exports.mutationTypes = `
     type Mutation{
         """
@@ -86,6 +93,9 @@ exports.mutationTypes = `
     }
 `;
 
+/** Mutation Resolvers
+ * @type {Object}
+ */
 exports.mutationResolvers = {
     createUser,
     deleteUser,

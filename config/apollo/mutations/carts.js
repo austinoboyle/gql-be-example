@@ -1,9 +1,20 @@
+/** @module mutations-carts */
+
 const Cart = require("../../../models/Cart");
 const Shop = require("../../../models/Shop");
 const User = require("../../../models/User");
 const { populateTotals } = require("../../../utils");
 const { isAccountOwner, requirePermission } = require("../authTypes");
 
+/**
+ * Add an item to a cart
+ *
+ * @param {*} obj unused
+ * @param {Object} item { user_id: modify this user's cart, shop_id: add item from
+ * this store, product_id: id of product to add, quantity: number of said item }
+ * @param {Object} context {user: user making request}
+ * @returns {Promise} resolves to updated cart
+ */
 exports.addToCart = (
     obj,
     { user_id, shop_id, product_id, quantity },
@@ -73,6 +84,15 @@ exports.addToCart = (
     });
 };
 
+/**
+ * Update quantity of specific item in cart
+ *
+ * @param {*} obj unused
+ * @param {Object} item { user_id: modify this user's cart, shop_id: add item from
+ * this store, product_id: id of product to add, quantity: change quantity to... }
+ * @param {Object} context {user: user making request}
+ * @returns {Promise} resolves to updated cart
+ */
 exports.updateItemQuantity = (
     obj,
     { user_id, shop_id, product_id, quantity },
