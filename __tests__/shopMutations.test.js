@@ -77,6 +77,30 @@ describe("Delete Shop", () => {
             });
         });
     });
+    it("Removes STOREOWNER status if it's their only store", done => {
+        const q = mutation(`deleteShop(shop_id: "${shop_ids[0]}"){n ok}`);
+        User.findById(owner_ids[0]).then(owner => {
+            graphQLQuery(q, { user: owner }).then(res => {
+                expect(res.data.deleteShop.n).toBe(1);
+                User.findById(owner_ids[0]).then(u => {
+                    expect(u.access).toBe("USER");
+                    done();
+                });
+            });
+        });
+    });
+    it("Keeps ADMIN status if it's their only store", done => {
+        const q = mutation(`deleteShop(shop_id: "${shop_ids[0]}"){n ok}`);
+        User.findById(admin_id).then(owner => {
+            graphQLQuery(q, { user: owner }).then(res => {
+                expect(res.data.deleteShop.n).toBe(1);
+                User.findById(admin_id).then(u => {
+                    expect(u.access).toBe("ADMIN");
+                    done();
+                });
+            });
+        });
+    });
     it("Allows admin", done => {
         const q = mutation(`deleteShop(shop_id: "${shop_ids[0]}"){n ok}`);
         User.findById(admin_id).then(admin => {
