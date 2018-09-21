@@ -24,6 +24,8 @@ let types = `
         id: ID!
         shop_id: ID!
         name: String!
+        description: String
+        tags: [String!]
         price: Float!
     }
 

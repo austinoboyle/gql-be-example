@@ -11,7 +11,7 @@ type Query {
     "Get users by username, id, or access level"
     users(id: ID, username: String, access: Access): [User!]
     shops(id: ID, name: String, product_id: ID): [Shop!]
-    products(id: ID, name: String): [Product!]
+    products(id: ID, name: String, tag: String): [Product!]
     carts(id: ID, user_id: ID, shop_id: ID): [Cart!]
     orders(id: ID, user_id: ID, shop_id: ID): [Order!]
 }
@@ -28,8 +28,11 @@ const shops = (obj, { id, name, product_id }, context, info) => {
         .exec();
 };
 
-const products = (obj, { id, name }, context, info) => {
-    return Product.find(createQuery({ _id: id, name }));
+const products = (obj, { id, name, tag }, context, info) => {
+    if (tag !== null && tag !== undefined) {
+        tag = tag.toLowerCase();
+    }
+    return Product.find(createQuery({ _id: id, name, tags: tag }));
 };
 
 const carts = (obj, { id, user_id, shop_id }) => {
