@@ -8,7 +8,9 @@ exports.setup = done => {
 };
 
 exports.end = done => {
-    mongoose.disconnect().then(() => done());
+    resetDb()
+        .then(() => mongoose.disconnect())
+        .then(() => done());
 };
 
 exports.graphQLQuery = (query, context = null) => {

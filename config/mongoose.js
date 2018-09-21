@@ -20,7 +20,6 @@ module.exports = function() {
     mongoose.connection.on("error", function(err) {
         console.log(
             "Error: Could not connect to MongoDB. Did you forget to run `mongod`?"
-                .red
         );
     });
     return db;

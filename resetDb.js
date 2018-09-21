@@ -1,3 +1,5 @@
+/** @module resetDb*/
+
 const User = require("./models/User");
 const Order = require("./models/Order");
 const Product = require("./models/Product");
@@ -5,6 +7,7 @@ const Shop = require("./models/Shop");
 const Cart = require("./models/Cart");
 const data = require("./data");
 
+/** Reset the database based on seed data */
 module.exports = () => {
     return Promise.all([
         Order.remove(),
