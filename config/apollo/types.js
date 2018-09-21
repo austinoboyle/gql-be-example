@@ -6,12 +6,18 @@ let types = `
         ADMIN
     }
 
+    """
+    Someone awesome enough to make an account with us
+    """
     type User {
         id: ID!
         username: String!
         access: Access!
     }
 
+    """
+    A place that sells things.
+    """
     type Shop {
         id: ID!
         name: String!
@@ -43,8 +49,7 @@ let types = `
     }
 
     """
-    An order in progress.  Product prices in the cart will updates as the stores
-    change them.
+    An order in progress.  Product details in the cart will updates as stores change them.
     """
     type Cart {
         id: ID!
@@ -55,8 +60,7 @@ let types = `
     }
 
     """
-    Any service/product added to a cart/order, along with any quantities, rates,
-    and prices that pertain to them.
+    Any service/product added to a cart/order, along with any quantities, rates, and prices that pertain to them.
     """
     type LineItem {
         product: Product!
@@ -65,7 +69,7 @@ let types = `
     }
 
     """
-    Raw MongoDB response when an item is deleted
+    Raw MongoDB response when an item is deleted.  Returned whenever a full item is deleted.
     """
     type Deletion {
         ok: Int!
