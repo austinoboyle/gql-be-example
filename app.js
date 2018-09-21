@@ -24,6 +24,7 @@ const handleContext = ({ req }) => {
 
 const server = new ApolloServer({
     schema,
+    playground: true,
     uploads: false,
     context: handleContext
 });
